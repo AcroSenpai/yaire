@@ -1,0 +1,26 @@
+{
+	"app":{
+		"title":"Storypub",
+		"version":"1.0"
+	},
+	"dbconf_dev":{
+		"driver":"mysql",
+		"dbhost":"localhost",
+		"dbuser":"storypub",
+		"dbpass":"storypub",
+		"dbname":"storypub"
+	},
+        "dbconf_pro":{
+		"driver":"mysql",
+		"dbhost":"x.x.x.x",
+		"dbuser":"",
+		"dbpass":"",
+		"dbname":""
+	},
+        "assets":{
+                "css":"bootstrap.min.css",
+                "js":"app.js"
+              
+        }
+
+}
