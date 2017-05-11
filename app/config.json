@@ -6,9 +6,9 @@
 	"dbconf_dev":{
 		"driver":"mysql",
 		"dbhost":"localhost",
-		"dbuser":"storypub",
-		"dbpass":"storypub",
-		"dbname":"storypub"
+		"dbuser":"root",
+		"dbpass":"",
+		"dbname":"ya_ire"
 	},
         "dbconf_pro":{
 		"driver":"mysql",
