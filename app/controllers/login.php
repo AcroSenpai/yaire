@@ -29,6 +29,28 @@
                     $this->view->show();
            
    		}
+
+      function ckuser()
+      {
+        $email=filter_input(INPUT_POST, 'email');
+        $pass=filter_input(INPUT_POST, 'pass');
+
+        $result = $this->model->get_user($email,$pass);
+
+        if(!empty($result))
+        {
+            $_SESSION["user"]=$result[0]['username'];
+            $_SESSION["iduser"]=$result[0]['id_userweb'];
+            $_SESSION["rol"]=$result[0]['roles'];
+           
+            echo 1;
+        }
+        else
+        {
+            echo "Error de login";
+        }
+
+      }
                 
          
    }

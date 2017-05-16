@@ -1,3 +1,4 @@
+
 <?php
 
 	namespace X\App\Views;
@@ -11,6 +12,4 @@
 			$this->output= $this->render('ttienda.php');
 			
 		}
-		
-		
 	}

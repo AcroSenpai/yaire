@@ -1,3 +1,4 @@
+
 {
 	"app":{
 		"title":"Storypub",
@@ -22,5 +23,6 @@
                 "js":"app.js"
               
         }
+
 
 }

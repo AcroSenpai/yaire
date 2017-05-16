@@ -9,16 +9,18 @@
 			parent::__construct();
 			
 		}
-                //an example....
-		public function getRoles(){
-			$sql="SELECT * FROM roles";
-			$this->query($sql);
-
-			$res=$this->execute();
-			if($res){
-				$result=$this->resultset();
-							
-			}else {$result=null;}
-			return $result;
-		}
+       	
+       	public function get_user($mail,$pass)
+        {
+            $sql='Select * From userweb Where mail="'.$mail.'" AND password="'.$pass.'"';
+            $this->query($sql);
+            $this->execute();
+            $res=$this->execute();
+            $result="";
+            if($res){
+                $result=$this->resultset();
+            }
+            return $result;
+        }
+		
 	}

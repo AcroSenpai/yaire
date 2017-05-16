@@ -1,3 +1,4 @@
+
 <?php
 
 	namespace X\App\Models;
