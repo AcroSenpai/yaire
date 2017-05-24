@@ -11,15 +11,6 @@
     <body>
     	<input type='text' class="datepicker-here" data-position="right top"  data-language='es'/>
     	<span style="display: none" id="respaldo"></span>
-    	<select id="profesor">
-    		<?php
-    			foreach ($this->dataTable as $profesor ) {
-    				?>
-    					<option value="<?=$profesor['id_profesores']?>"><?=$profesor['nombre']?> <?=$profesor['apellidos']?></option>
-    				<?php
-    			}
-    		?>
-    	</select>
     	<select id="zona">
     		
     	</select>
@@ -29,12 +20,8 @@
 
     	<table id="resultado" border="1">
     	<tr>
-    		<td>Fecha</td><td>Hora</td><td>Profesor</td><td>Zona</td><td>Importe</td><td></td>
+    		<td>Fecha</td><td>Hora</td><td>Zona</td><td></td>
     	</tr>
-		<tr class='total'>
-			<td></td><td></td><td></td><td>Total:</td><td>0</td>
-		</tr>
-
     	</table>
     	<button id="borrar">Borrar</button>
     	<button id="guardar">Guardar</button>
@@ -52,16 +39,11 @@
     			
 
     			$('#my-element').datepicker();
-				// Access instance of plugin
 				$('#my-element').data('datepicker');
 
-				$('.datepicker-here').on('click', function(){
-					//$('.datepickers-container').show();
-				});
+				$('.datepicker-here').on('click', function(){});
 
 				$('.datepickers-container').on('click',function(){
-					//$(this).hide();
-					//alert($('.datepicker-here').val());	
  					$('.datepicker-here').val(calcular_semana($('.datepicker-here').val()));
 					generar_cal();
 
@@ -116,8 +98,6 @@
 					{
 						return $('#respaldo').text();
 					}
-
-					
 				}
 
 				function generar_cal()
@@ -139,9 +119,8 @@
 						}
 						
 						$("#mapa").append(primera_fila);
-						profe = $("#profesor").val();
 						zona = $("#zona").val();
-						$.post("/yaire/practico/crear_tabla", {num1:numeros[0],profe:profe,zona:zona,mes:mes,año:año}, function(data){
+						$.post("/yaire/practico/crear_tabla_horario", {num1:numeros[0],zona:zona,mes:mes,año:año}, function(data){
 							$("#mapa").append(data);
 							//alert(data);
 						});
@@ -154,17 +133,9 @@
 					generar_cal();
 				});
 
-				$("#profesor").on('change', function(){
-					$('.datepicker-here').val(calcular_semana($('.datepicker-here').val()));
-					generar_cal();
-					$("#zona option").remove();
-					cargar_zonas();
-				});
 
-				$("body").on('click','.practica', function(){
+				$("body").on('click','.horario', function(){
 
-					profe= $("#profesor option:selected").text();
-					profe_id = $("#profesor").val();
 					zona= $("#zona option:selected").text();
 					zona_id = $("#zona").val();
 					fecha = $(this).siblings("span").text();
@@ -179,9 +150,7 @@
 
 					$(".total").remove();
 
-					row = "<tr class='result '><td class='fecha'>"+fecha+"</td><td class='hora'>"+hora+"</td><td class='profe'>"+profe+"<span style='display:none;'>"+profe_id+"</span></td><td class='zona'>"+zona+"<span style='display:none;'>"+zona_id+"</span></td><td>"+importe+"</td><td class='br'>Borrar</td></tr>";
-					row += "<tr class='total'><td></td><td></td><td></td><td>Total:</td><td>"+total+"</td></tr>";
-
+					row = "<tr class='result '><td class='fecha'>"+fecha+"</td><td class='hora'>"+hora+"</td></td><td class='zona'>"+zona+"<span style='display:none;'>"+zona_id+"</span></td><td class='br'>Borrar</td></tr>";
 					$("#resultado").append(row);
 
 				});
@@ -200,17 +169,15 @@
 						fecha= fecha.split("-");
 						hora = $(this).find(".hora").text();
 						hora = hora.replace(':00', '');
-						boton = "<button class='practica'>Marcar</button>";
+						boton = "<button class='horario'>Marcar</button>";
 						clase = fecha[2]+"-"+hora;
 						$("."+clase).append(boton);
 
 					});
 
 					$(".result").remove();
-					$(".total").remove();
-					row = "<tr class='total'><td></td><td></td><td>Total:</td><td>0</td></tr>";
-					$("#resultado").append(row);
 				});
+
 
 				$("body").on('click','.br', function()
 				{
@@ -218,23 +185,17 @@
 					fecha= fecha.split("-");
 					hora = $(this).siblings(".hora").text();
 					hora = hora.replace(':00', '');
-					boton = "<button class='practica'>Marcar</button>";
+					boton = "<button class='horario'>Marcar</button>";
 					clase = fecha[2]+"-"+hora;
 					$("."+clase).append(boton);
 					$(".total").remove();
 					$(this).parent('tr').remove();
-					total = total - '1';
-					row = "<tr class='total'><td></td><td></td><td>Total:</td><td>"+total+"</td></tr>";
-
-					$("#resultado").append(row);
 				});
-				
+
 				function cargar_zonas(f)
 				{
-					profe = $("#profesor").val();
-					$.post("/yaire/practico/cargar_zonas", {profe:profe}, function(data){
+					$.post("/yaire/practico/cargar_zonas_h", function(data){
 							$("#zona").append(data);
-							
 							$('.datepicker-here').val(calcular_semana(f));
     						generar_cal();
 					});
@@ -248,11 +209,11 @@
 						fecha = $(this).find(".fecha").text();
 						hora = $(this).find(".hora").text();
 						hora = hora.replace(':00', '');
-						profe = $(this).find(".profe").find("span").text();
 						zona = $(this).find(".zona").find("span").text();
 
-						$.post("/yaire/practico/guardar_practicas", {fecha:fecha,hora:hora,profe:profe,zona:zona}, function(data){
-								window.location.href = "/yaire/users";
+						$.post("/yaire/practico/guardar_horario", {fecha:fecha,hora:hora,zona:zona}, function(data){
+								alert(data);
+								//window.location.href = "/yaire/users";
 							
 						});
 
