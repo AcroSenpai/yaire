@@ -1,30 +1,42 @@
 <h1><?= $this->page; ?></h1>
 <?php
 $total =0;
-foreach ($this->dataTable as $concepto) {
-	?>
+if(!empty($this->dataTable))
+{
+	foreach ($this->dataTable as $concepto) {
+		?>
 
-		<div class="concepto">
-			<div>
-				<a href="/yaire/tienda/producto/id/<?=$concepto['id_productos']?>"><img style="width: 300px" src="/yaire/pub/images/<?=$concepto['img']?>"></a>
+			<div class="concepto">
+				<div>
+					<a href="/yaire/tienda/producto/id/<?=$concepto['id_productos']?>"><img style="width: 300px" src="/yaire/pub/images/<?=$concepto['img']?>"></a>
+				</div>
+				<div>
+					<?=$concepto['nombre']?>
+				</div>
+				<div>
+					Precio: <?=$concepto['precio']?>
+				</div>
+				<div>
+					Cantidad: <input type="number" class="precio" name="precio" min="1" value="<?=$concepto['cantidad']?>">
+					<span class="id" style="display: none;"><?=$concepto['id_conceptos']?></span>
+					<span class="producto" style="display: none;"><?=$concepto['id_productos']?></span>
+				</div>
+				<div>
+					<button class="borrar">X<span class="id" style="display: none;"><?=$concepto['id_conceptos']?></span></span></button>
+				</div>
 			</div>
-			<div>
-				<?=$concepto['nombre']?>
-			</div>
-			<div>
-				Precio: <?=$concepto['precio']?>
-			</div>
-			<div>
-				Cantidad: <input type="number" class="precio" name="precio" min="1" value="<?=$concepto['cantidad']?>">
-				<span class="id" style="display: none;"><?=$concepto['id_conceptos']?></span>
-				<span class="producto" style="display: none;"><?=$concepto['id_productos']?></span>
-			</div>
-		</div>
 
-	<?php
-	$total = $total + $concepto['precio'];
+		<?php
+		$total = $total + $concepto['precio'];
+	}
+	
 }
-
+else
+{
+	?>
+		<h1>No tienes productos en el carrito</h1>
+	<?php
+}
 ?>
 <div>
 	Total: <span id="total"><?=$total?></span>
@@ -54,6 +66,14 @@ foreach ($this->dataTable as $concepto) {
 <script type="text/javascript">
 	$(function(){
 
+		$(".borrar").on("click", function(){
+
+			cocnepto = $(this).find('.id').text();
+			$.post( "/yaire/tienda/borrar_concepto",{cocnepto:cocnepto}, function( data ) {
+				window.location.href = "/yaire/tienda/carrito";
+			});
+
+		});
 
 		$(".precio").on('change',function(){
 
@@ -66,6 +86,13 @@ foreach ($this->dataTable as $concepto) {
 			});
 		
 		})
+
+		if($("#total").text()==0)
+		{
+			$("#comprar").hide();
+			$("#pago_tarjeta").hide();
+			$("#tramitar_pedido").hide();
+		}
 
 		$("#comprar").on('click', function(){
 
@@ -83,17 +110,17 @@ foreach ($this->dataTable as $concepto) {
 			{
 				alert("El numero es incorrecto");
 			}
-			else if(mes == "" || mes.length > 12 || mes.length < 1)
+			else if(mes == "" || mes > 12 || mes < 1)
 			{
 				alert("El mes es incorrecto");
 			}
-			else if(numero == "" || numero.length < 16)
+			else if(ano == "" || ano > 22 || ano < 12)
 			{
-				alert("El numero es incorrecto");
+				alert("El año es incorrecto");
 			}
-			else if(numero == "" || numero.length < 16)
+			else if(ccv == "" || cvv.length < 3)
 			{
-				alert("El numero es incorrecto");
+				alert("El ccv es incorrecto");
 			}
 			else
 			{

@@ -151,22 +151,25 @@
                 for($k=0;$k<5;$k++)
                 {
                   $total .= "<td class='$numeros[$k]-$i'>";
-                    
-                    $fecha = $año."-".$mes."-".$numeros[$k];
+                    $ano = str_pad($numeros[$k], 2, "0", STR_PAD_LEFT);
+                    $fecha = $año."-".$mes."-".$ano;
                     if(!empty($h_profe))
                     {
                       $cont = 0;
                       foreach ($h_profe as $hora) 
                       {
-                        
+                          //echo $hora['hora'].' = '.$i.' '.$hora['fecha'].' = '.$fecha.' / ' ;
                         if($hora['hora']==$i && $hora['fecha'] == $fecha)
                         {
+                         // echo ' Hola ';
                            $cont++;
                         }
                       }
 
+
                       if($cont ==0)
                       {
+                       // echo ' Adios ';
                         $total.= "<button class='horario'>Marcar</button>";
                       }
                     }

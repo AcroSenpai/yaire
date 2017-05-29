@@ -122,7 +122,7 @@
 						zona = $("#zona").val();
 						$.post("/yaire/practico/crear_tabla_horario", {num1:numeros[0],zona:zona,mes:mes,año:año}, function(data){
 							$("#mapa").append(data);
-							//alert(data);
+							//console.log(data);
 						});
 
 					}

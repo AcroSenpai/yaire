@@ -91,9 +91,11 @@
         /**/
         $alumno=$this->model->get_alumno($_SESSION['id_user']);
         $data = $this->model->get_concepto_alumno($alumno[0]['id_alumnos']);
-
-        $this->addData($data); 
-        $this->view3->__construct($this->dataView,$this->dataTable);
+        if(!empty($data))
+        {
+          $this->addData($data); 
+          $this->view3->__construct($this->dataView,$this->dataTable);
+        }
         $this->view3->show();
       }
 
@@ -144,9 +146,14 @@
         $compra=$this->model->get_compra($alumno[0]['id_alumnos']);
 
         $this->model->modificar_concepto_compra($compra[0]['id_compras'], $concepto);
-
-
       }
+
+      function borrar_concepto()
+      {
+        $concepto=filter_input(INPUT_POST, 'cocnepto');
+        $this->model->borrar_concepto($concepto);
+      }
+
 
          
    }

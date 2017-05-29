@@ -9,7 +9,7 @@
 			parent::__construct();
 			
 		}
-
+		
 		public function getProductos()
 		{
 
@@ -49,7 +49,7 @@
 
 		public function get_concepto($producto,$alumno)
 		{
-			$sql="SELECT * FROM conceptos  WHERE alumnos =".$alumno." AND productos =".$producto;
+			$sql="SELECT * FROM conceptos  WHERE alumnos =".$alumno." AND productos =".$producto." AND compras is NULL";
 
 			$this->query($sql);
 
@@ -63,7 +63,7 @@
 
 		public function get_concepto_alumno($alumno)
 		{
-			$sql="SELECT productos.nombre, productos.img, conceptos.precio, conceptos.cantidad, productos.id_productos, conceptos.id_conceptos FROM conceptos inner join productos on conceptos.productos = productos.id_productos  WHERE alumnos =".$alumno;
+			$sql="SELECT productos.nombre, productos.img, conceptos.precio, conceptos.cantidad, productos.id_productos, conceptos.id_conceptos FROM conceptos inner join productos on conceptos.productos = productos.id_productos  WHERE alumnos =".$alumno." AND compras is NULL";
 			
 			$this->query($sql);
 
@@ -77,14 +77,14 @@
 
 		public function update_concepto($producto,$cantidad,$precio,$alumno)
 		{
-			$sql="UPDATE conceptos SET cantidad = cantidad + ".$cantidad." , precio = precio + ".$precio." Where productos =".$producto." AND alumnos =".$alumno;
+			$sql="UPDATE conceptos SET cantidad = cantidad + ".$cantidad." , precio = precio + ".$precio." Where productos =".$producto." AND alumnos =".$alumno." AND compras is NULL";
 			$this->query($sql);
 			$res=$this->execute();
 		}
 
 		public function update_concepto_2($producto,$cantidad,$precio,$alumno)
 		{
-			$sql="UPDATE conceptos SET cantidad = ".$cantidad." , precio = ".$precio." Where productos =".$producto." AND alumnos =".$alumno;
+			$sql="UPDATE conceptos SET cantidad = ".$cantidad." , precio = ".$precio." Where productos =".$producto." AND alumnos =".$alumno." AND compras is NULL";
 			$this->query($sql);
 			$res=$this->execute();
 		}
@@ -104,7 +104,7 @@
 
 		public function delete_conceptos()
 		{
-			$sql="DELETE FROM conceptos WHERE fecha < DATE_SUB(CURDATE(), INTERVAL 1 DAY) WHERE compras = NULL";
+			$sql="DELETE FROM conceptos WHERE fecha < DATE_SUB(CURDATE(), INTERVAL 1 DAY) WHERE compras is NULL";
 			$this->query($sql);
 
 			$res=$this->execute();
@@ -112,7 +112,7 @@
 
 		public function get_num_conceptos($alumno)
 		{
-			$sql="SELECT count(*) as 'total' FROM conceptos  WHERE alumnos =".$alumno;
+			$sql="SELECT count(*) as 'total' FROM conceptos  WHERE alumnos =".$alumno." AND compras is NULL";
 			$this->query($sql);
 
 			$res=$this->execute();
@@ -161,8 +161,13 @@
 		public function modificar_concepto_compra($id, $concepto)
 		{
 			$sql="UPDATE conceptos SET compras = ".$id." Where id_conceptos =".$concepto;
-			echo $sql;
-			die;
+			$this->query($sql);
+			$res=$this->execute();
+		}
+
+		public function borrar_concepto($concepto)
+		{
+			$sql="DELETE FROM conceptos Where id_conceptos =".$concepto;
 			$this->query($sql);
 			$res=$this->execute();
 		}

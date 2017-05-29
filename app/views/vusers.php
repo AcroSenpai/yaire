@@ -6,8 +6,8 @@
 	
 	class vUsers extends View{
 
-		function __construct($dataView){
-			parent::__construct($dataView);
-			echo $this->render('tusers.php');
+		function __construct($dataView,$dataTable=null){
+			parent::__construct($dataView,$dataTable);
+			$this->output= $this->render('tusers.php');
 		}
 	}

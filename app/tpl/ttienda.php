@@ -1,5 +1,5 @@
 <h1><?= $this->page; ?></h1>
-<div>Carrito <span id="num_c"></span></div>
+<a href="/yaire/tienda/carrito"><div>Carrito <span id="num_c"></span></div></a>
 <div style="display: flex;">
 <?php
 
