@@ -1,0 +1,15 @@
+<?php
+	include 'head_common.php';
+	?>
+	<div class="container">
+		
+		<h1><?= $this->page; ?></h1>
+
+		<img src="/pub/images/error_homer.png">
+
+	</div>
+
+<?php
+	include 'footer_common.php';
+?>
+

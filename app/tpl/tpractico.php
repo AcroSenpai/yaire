@@ -1,265 +1,118 @@
-<h1><?= $this->page; ?></h1>
-<html>
-    <head>
-        <link href="/yaire/pub/css/datepicker.min.css" rel="stylesheet" type="text/css">
-        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-        <script src="/yaire/pub/js/datepicker.min.js"></script>
 
-        <!-- Include English language -->
-        <script src="/yaire/pub/js/i18n/datepicker.es.js"></script>
-    </head>
-    <body>
-    	<input type='text' class="datepicker-here" data-position="right top"  data-language='es'/>
-    	<span style="display: none" id="respaldo"></span>
-    	<select id="profesor">
-    		<?php
-    			foreach ($this->dataTable as $profesor ) {
-    				?>
-    					<option value="<?=$profesor['id_profesores']?>"><?=$profesor['nombre']?> <?=$profesor['apellidos']?></option>
-    				<?php
-    			}
-    		?>
-    	</select>
-    	<select id="zona">
-    		
-    	</select>
-    	<table id ="mapa" border="1">
+<?php
+	include 'head_common.php';
+?>
+<span class="breadcrums">Prácticas</span>
+	<link href="<?='/pub/css/datepicker.min.css'?>" rel="stylesheet" type="text/css">
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+	<script src="<?='/pub/js/datepicker.min.js'?>"></script>
+	<script src="<?='/pub/js/datepicker.es.js'?>"></script>
+<div class="container">
 
-    	</table>
+	<div class="top_space">
+	</div>
+<?php if( !empty ($_SESSION['user']) && ($_SESSION['rol']==3) ): ?>
 
-    	<table id="resultado" border="1">
-    	<tr>
-    		<td>Fecha</td><td>Hora</td><td>Profesor</td><td>Zona</td><td>Importe</td><td></td>
-    	</tr>
-		<tr class='total'>
-			<td></td><td></td><td></td><td>Total:</td><td>0</td>
-		</tr>
+	<div class="horarios_top_wrapper">
 
-    	</table>
-    	<button id="borrar">Borrar</button>
-    	<button id="guardar">Guardar</button>
-    	
-    	<script type="text/javascript">
-    		$(function(){
-    			var dias = new Array('domingo','lunes','martes','miercoles','jueves','viernes','sabado');
-    			var meses = new Array("31", "28", "31", "30", "31", "30", "31", "31", "30", "31", "30", "31");
-    			var mes ="";
-    			var año ="";
-    			var total ="";
-    			Now = new Date();
-    			var f = Now.getDate() + "/" + eval(Now.getMonth()+1)+"/"+Now.getFullYear();
-    			cargar_zonas(f);
-    			
+	<label for="semana">Selecciona la semana:
+		 <input type='text' id="semana" class="datepicker-here create_input_text" data-position="right top"  data-language='es'/>
+	</label>
 
-    			$('#my-element').datepicker();
-				// Access instance of plugin
-				$('#my-element').data('datepicker');
+	<span style="display: none" id="respaldo"></span>
 
-				$('.datepicker-here').on('click', function(){
-					//$('.datepickers-container').show();
-				});
-
-				$('.datepickers-container').on('click',function(){
-					//$(this).hide();
-					//alert($('.datepicker-here').val());	
- 					$('.datepicker-here').val(calcular_semana($('.datepicker-here').val()));
-					generar_cal();
-
-				});
-
-				function calcular_semana(fecha)
-				{
-					if(fecha != "" && fecha != $('#respaldo').text())
-					{
-						campos = fecha.split('/');
-						año =campos[2];
-						mes = campos[1];
-						date = new Date(campos[2],campos[1]-1,campos[0]);
-						dia_actual = date.getDay()
-
-						dia_def_i = dia_actual - 1;
-						dia_def_f = 5 - dia_actual;
-
-						diainicio = campos[0]-dia_def_i;
-						diafin = eval(campos[0])+dia_def_f;
-						meses[campos[1]/1-1];
-
-						if(diainicio < 1)
-						{
-							diainicio = eval(meses[campos[1]/1-2]) + diainicio;
-
-						}
-
-						if(diainicio == 0)
-						{
-							diainicio++;
-						}
-
-						if(diafin == 0)
-						{
-							diafin = meses[campos[1]/1-2];
-						}
-
-
-						if(diafin > meses[campos[1]/1-1])
-						{
-
-							diafin = diafin - meses[campos[1]/1-1];
-						}
-
-						semana = diainicio+"-"+diafin;
-						$('#respaldo').text(semana);
-						
-						return semana;
-					}
-					else
-					{
-						return $('#respaldo').text();
-					}
-
-					
+	<label for="profesor">Selecciona el profesor:
+		<select id="profesor" class="create_select">
+			<?php
+				foreach ($this->dataTable as $profesor ) {
+					?>
+						<option value="<?=$profesor['id_profesores']?>"><?=$profesor['nombre']?> <?=$profesor['apellidos']?></option>
+					<?php
 				}
+			?>
+		</select>
+	</label>
 
-				function generar_cal()
-				{
-					dia = $('.datepicker-here').val();
-					if(dia!="")
-					{
-						numeros = dia.split('-');
-						$("#mapa tr").remove();
-						for(i=0;i<4;i++)
-						{
-							numeros[i+1] = eval(numeros[i])+1;
-						}
-						
-						primera_fila = "<tr class='.hola'><td></td>";
-						for(i=0;i<5;i++)
-						{
-							primera_fila += "<td>"+dias[i+1]+" "+numeros[i]+"</td>";
-						}
-						
-						$("#mapa").append(primera_fila);
-						profe = $("#profesor").val();
-						zona = $("#zona").val();
-						$.post("/yaire/practico/crear_tabla", {num1:numeros[0],profe:profe,zona:zona,mes:mes,año:año}, function(data){
-							$("#mapa").append(data);
-							//alert(data);
-						});
+	<label for="zona">Selecciona la zona:
+		<select id="zona" class="create_select">
+		</select>
+	</label>
 
-					}
-				}
+</div>
 
-				$('select#zona').on('change',function(){
-				  $('.datepicker-here').val(calcular_semana($('.datepicker-here').val()));
-					generar_cal();
-				});
+<div class="container_horarios">
 
-				$("#profesor").on('change', function(){
-					$('.datepicker-here').val(calcular_semana($('.datepicker-here').val()));
-					generar_cal();
-					$("#zona option").remove();
-					cargar_zonas();
-				});
+	  <div class="horarios_wrapper">
 
-				$("body").on('click','.practica', function(){
+			<div class="table_wrapper">
 
-					profe= $("#profesor option:selected").text();
-					profe_id = $("#profesor").val();
-					zona= $("#zona option:selected").text();
-					zona_id = $("#zona").val();
-					fecha = $(this).siblings("span").text();
-					fecha = fecha.split(' ');
-					dia = fecha[0];
-					hora= fecha[1];
-					importe = 1;
-					total = eval(total + importe);
-					mes = pad(mes,2);
-					$(this).remove();
-					fecha = año+"-"+mes+"-"+dia;
+	    	<table id ="mapa">
 
-					$(".total").remove();
+	    	</table>
 
-					row = "<tr class='result '><td class='fecha'>"+fecha+"</td><td class='hora'>"+hora+"</td><td class='profe'>"+profe+"<span style='display:none;'>"+profe_id+"</span></td><td class='zona'>"+zona+"<span style='display:none;'>"+zona_id+"</span></td><td>"+importe+"</td><td class='br'>Borrar</td></tr>";
-					row += "<tr class='total'><td></td><td></td><td></td><td>Total:</td><td>"+total+"</td></tr>";
+			</div>
 
-					$("#resultado").append(row);
+		</div>
 
-				});
+		<img class="flecha hvr-grow" src="/pub/images/icons/flecha.png" alt="flecha" />
 
-				function pad (str, max) 
-				{
-					str = str.toString();
-					return str.length < max ? pad("0" + str, max) : str;
-				}
+		<div class="total_wrapper" style="display:none">
 
-				$("#borrar").on('click', function()
-				{	
-					$(".result").each(function(){
+      <label>Resumen de prácticas</label>
 
-						fecha = $(this).find(".fecha").text();
-						fecha= fecha.split("-");
-						hora = $(this).find(".hora").text();
-						hora = hora.replace(':00', '');
-						boton = "<button class='practica'>Marcar</button>";
-						clase = fecha[2]+"-"+hora;
-						$("."+clase).append(boton);
+      <div class="table_wrapper">
 
-					});
+	    	<table id="resultado" >
+	    	<tr>
+	    		<td>Fecha</td><td>Hora</td><td>Profesor</td><td>Zona</td><td>Importe</td><td></td>
+	    	</tr>
+			<tr class='total'>
+				<td colspan="3">Total:</td><td colspan="2">0</td>
+			</tr>
+	    	</table>
 
-					$(".result").remove();
-					$(".total").remove();
-					row = "<tr class='total'><td></td><td></td><td>Total:</td><td>0</td></tr>";
-					$("#resultado").append(row);
-				});
+				<div class="buttons_wrapper">
 
-				$("body").on('click','.br', function()
-				{
-					fecha = $(this).siblings(".fecha").text();
-					fecha= fecha.split("-");
-					hora = $(this).siblings(".hora").text();
-					hora = hora.replace(':00', '');
-					boton = "<button class='practica'>Marcar</button>";
-					clase = fecha[2]+"-"+hora;
-					$("."+clase).append(boton);
-					$(".total").remove();
-					$(this).parent('tr').remove();
-					total = total - '1';
-					row = "<tr class='total'><td></td><td></td><td>Total:</td><td>"+total+"</td></tr>";
+          <button id="borrar" class="hvr-grow">
+            <img src="/pub/images/icons/rubbish.png" alt="papelera para eliminar practicas"/>
+          </button>
 
-					$("#resultado").append(row);
-				});
-				
-				function cargar_zonas(f)
-				{
-					profe = $("#profesor").val();
-					$.post("/yaire/practico/cargar_zonas", {profe:profe}, function(data){
-							$("#zona").append(data);
-							
-							$('.datepicker-here').val(calcular_semana(f));
-    						generar_cal();
-					});
+          <button id="guardar" class="hvr-grow">Guardar</button>
 
-				}
+        </div>
+			</div>
 
-				$("#guardar").on('click', function()
-				{
-					$(".result").each(function(){
+    </div>
 
-						fecha = $(this).find(".fecha").text();
-						hora = $(this).find(".hora").text();
-						hora = hora.replace(':00', '');
-						profe = $(this).find(".profe").find("span").text();
-						zona = $(this).find(".zona").find("span").text();
+</div>
 
-						$.post("/yaire/practico/guardar_practicas", {fecha:fecha,hora:hora,profe:profe,zona:zona}, function(data){
-								window.location.href = "/yaire/users";
-							
-						});
 
-					});
 
-				});
-    		});
-    	</script>
-    </body>
-</html>
+<?php endif;
+
+if( !empty ($_SESSION['user']) && ($_SESSION['rol']==4) ):
+
+	echo '<label style="display:none" id="profe">1</label>';
+
+endif;
+
+ if( empty ($_SESSION['user']) ):
+
+	header('Location: /users');
+
+endif;
+
+if( ($_SESSION['rol']==2) ):
+
+	header('Location: /');
+
+endif; ?>
+
+<div class="space">
+</div>
+</div>
+<script src="<?='/pub/js/script_practico.js'?>"></script>
+
+<?php
+	include 'footer_common.php';
+?>

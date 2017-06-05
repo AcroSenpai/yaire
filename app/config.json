@@ -1,4 +1,3 @@
-
 {
 	"app":{
 		"title":"Storypub",
@@ -7,22 +6,8 @@
 	"dbconf_dev":{
 		"driver":"mysql",
 		"dbhost":"localhost",
-		"dbuser":"root",
-		"dbpass":"",
-		"dbname":"ya_ire"
-	},
-        "dbconf_pro":{
-		"driver":"mysql",
-		"dbhost":"x.x.x.x",
-		"dbuser":"",
-		"dbpass":"",
-		"dbname":""
-	},
-        "assets":{
-                "css":"bootstrap.min.css",
-                "js":"app.js"
-              
-        }
-
-
+		"dbuser":"yeira_yaire",
+		"dbpass":"rootroot",
+		"dbname":"yeira_yaire"
+	}
 }

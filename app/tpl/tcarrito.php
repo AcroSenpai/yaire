@@ -1,147 +1,125 @@
-<h1><?= $this->page; ?></h1>
 <?php
-$total =0;
-if(!empty($this->dataTable))
-{
-	foreach ($this->dataTable as $concepto) {
-		?>
+	include 'head_common.php';
+	?>
+<span class="breadcrums"><a href="/tienda">Tienda</a> > Carrito</span>
+<div class="container">
+
+<div class="top_space">
+</div>
+
+<h1>CARRITO</h1>
+
+	<div class="carrito_wrapper">
+		<?php
+		$total =0;
+		if(!empty($this->dataTable))
+		{
+			foreach ($this->dataTable as $concepto) {
+				?>
 
 			<div class="concepto">
-				<div>
-					<a href="/yaire/tienda/producto/id/<?=$concepto['id_productos']?>"><img style="width: 300px" src="/yaire/pub/images/<?=$concepto['img']?>"></a>
-				</div>
-				<div>
-					<?=$concepto['nombre']?>
-				</div>
-				<div>
-					Precio: <?=$concepto['precio']?>
-				</div>
-				<div>
-					Cantidad: <input type="number" class="precio" name="precio" min="1" value="<?=$concepto['cantidad']?>">
-					<span class="id" style="display: none;"><?=$concepto['id_conceptos']?></span>
-					<span class="producto" style="display: none;"><?=$concepto['id_productos']?></span>
-				</div>
-				<div>
-					<button class="borrar">X<span class="id" style="display: none;"><?=$concepto['id_conceptos']?></span></span></button>
-				</div>
-			</div>
 
-		<?php
-		$total = $total + $concepto['precio'];
-	}
-	
-}
-else
-{
-	?>
-		<h1>No tienes productos en el carrito</h1>
-	<?php
-}
-?>
-<div>
-	Total: <span id="total"><?=$total?></span>
+							<a href="/tienda/producto/id/<?=$concepto['id_productos']?>"><img alt"producto del carrito" style="width: 300px" src="/pub/images/<?=$concepto['img']?>"></a>
+
+							<div class="concepto_info">
+
+								<button class="borrar">X<span class="id_2" style="display: none;"><?=$concepto['id_conceptos']?></span></span></button>
+
+								<div class="info">
+
+									<span class="info_nombre"> <?=$concepto['nombre']?> </span>
+									<hr/>
+									<span class="info_precio"> Precio: <?=$concepto['precio']?> €</span>
+									<span class="info_cantidad"> Cantidad: <input type="number" class="precio" name="precio" min="1" value="<?=$concepto['cantidad']?>"></input>
+									<span class="producto" style="display: none;"><?=$concepto['id_productos']?></span>
+									</span>
+
+									<span class="id" style="display: none;"><?=$concepto['id_conceptos']?></span>
+								</div>
+
+							</div>
+
+				</div>
+
+				<?php
+				$total = $total + $concepto['precio'];
+			}
+
+		}
+		else
+		{
+			?>
+				<h1>No tienes productos en el carrito</h1>
+			<?php
+		}
+		?>
+		<div class="concepto_total">
+			<hr/>
+			<span id="total_cont">Total: <span id="total"> <?=$total?> </span>€</span>
+		</div>
+
+					<button class="hvr-grow-shadow" id="tramitar_pedido">COMPRAR</button>
+
+		<div class="carrito_pago">
+
+
+			<div id="pago_tarjeta">
+
+				<h3>PAGO CON TARJETA</h3>
+
+						<div class='card-wrapper' style="margin-top:-30px;"></div>
+
+			 			<!-- CSS is included via this JavaScript file -->
+			 			<script src="/pub/js/card.js"></script>
+
+			 			<div class="row tarjeta_wrapper">
+
+			 				<form class="tarjeta_form">
+
+			 					<span><input id="number" class="clean-slide" type="text" name="number" placeholder="numero"><label for="numero"></label></span>
+			 					<span><input id="name"  class="clean-slide" type="text" name="name" placeholder="nombre completo"/><label for="name"></label></span>
+
+								<div class="tarjeta_exp">
+									<span><input id="expiry"  class="clean-slide" type="text" name="expiry" placeholder="expira el"/><label for="expires"></label></span>
+				 					<span><input id="ccv"  class="clean-slide" type="text" name="cvc" placeholder="CVC"/><label for="cvc"></label></span>
+			 					</div>
+
+			 				</form>
+
+							<button id="comprar">PAGAR</button>
+
+			 			</div>
+
+			 			<script>
+
+			 			var card = new Card({
+
+			 				form: 'form',
+			 				container: '.card-wrapper',
+
+			 				width: 300, // optional — default 350px
+			 	 			formatting: true, // optional - default true
+
+			 				placeholders: {
+			 						number: '**** **** **** ****',
+			 						name: 'Arya Stark',
+			 						expiry: '**/****',
+			 						cvc: '***'
+			 				}
+			 			});
+
+			 			</script>
+
+			 </div>
+
+		</div>
+
+	</div>
+
 </div>
-<button id="tramitar_pedido">Tramitar pedido</button>
-<div id="pago_tarjeta">
-	           <label>Nombre</label>
-	           <input type="text" name="nombre" id="nombre">
-	           <label>Numero</label>
-	           <input type="text" name="numero" id="numero" maxlength="16" minlength="16">
-		        <label>Expiracion (MM/VV)</label>
-		        <label class="lccv">CCV <span id="ccv_ex" class="click">(?)</span></label><br/>
-
-	           <div  class="diferencia">
-		           <div>
-		           		<input type="number" name="mes" id="mes" min="1" max="12">/
-		           		<input type="number" name="año" id="ano" min="12" max="22">
-		           	</div>
-	           <input class="ccv" type="text" name="ccv" id="ccv" minlength="3" maxlength="3">
-	           </div>
-           </div>
-<button id="comprar">Comprar</button>
-
-
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-<script type="text/javascript">
-	$(function(){
 
-		$(".borrar").on("click", function(){
-
-			cocnepto = $(this).find('.id').text();
-			$.post( "/yaire/tienda/borrar_concepto",{cocnepto:cocnepto}, function( data ) {
-				window.location.href = "/yaire/tienda/carrito";
-			});
-
-		});
-
-		$(".precio").on('change',function(){
-
-			producto = $(this).siblings('.producto').text();
-			cantidad = $(this).val();
-
-			$.post( "/yaire/tienda/modificar_concepto",{producto:producto,cantidad:cantidad}, function( data ) {
-				location.reload(true);
-					
-			});
-		
-		})
-
-		if($("#total").text()==0)
-		{
-			$("#comprar").hide();
-			$("#pago_tarjeta").hide();
-			$("#tramitar_pedido").hide();
-		}
-
-		$("#comprar").on('click', function(){
-
-			nombre = $("#nombre").val();
-			numero = $("#numero").val();
-			mes = $("#mes").val();
-			ano = $("#ano").val();
-			ccv = $("#ccv").val();
-
-			if(nombre =="")
-			{
-				alert("Falta por poner el nombre");
-			}
-			else if(numero == "" || numero.length < 16)
-			{
-				alert("El numero es incorrecto");
-			}
-			else if(mes == "" || mes > 12 || mes < 1)
-			{
-				alert("El mes es incorrecto");
-			}
-			else if(ano == "" || ano > 22 || ano < 12)
-			{
-				alert("El año es incorrecto");
-			}
-			else if(ccv == "" || cvv.length < 3)
-			{
-				alert("El ccv es incorrecto");
-			}
-			else
-			{
-				total = $("#total").text();
-				$.post( "/yaire/tienda/crear_compra",{total:total}, function( data ) {
-					//window.location.href = "/yaire/tienda";
-				});
-
-				$('.concepto').each(function(){
-
-					cocnepto = $(this).find('.id').text();
-					$.post( "/yaire/tienda/asignar_conceptos",{cocnepto:cocnepto}, function( data ) {
-						window.location.href = "/yaire/tienda";
-					});
-				});
-				
-			}
-
-
-
-		});
-
-	});
-</script>
+<?php
+	include 'footer_common.php';
+?>

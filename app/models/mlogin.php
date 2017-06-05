@@ -7,9 +7,15 @@
 	class mLogin extends Model{
 		public function __construct(){
 			parent::__construct();
-			
+
 		}
-       	
+
+        /**
+        *
+        * get_user: funcion que devuelve un resultado si el usuario existe y la contraseña es correcta.
+        *
+        */
+
        	public function get_user($mail,$pass)
         {
             $sql='Select * From userweb Where mail="'.$mail.'" AND password="'.$pass.'"';
@@ -22,5 +28,5 @@
             }
             return $result;
         }
-		
+
 	}

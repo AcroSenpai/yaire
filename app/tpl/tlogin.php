@@ -1,34 +1,39 @@
-<h1><?= $this->page; ?></h1><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
-<script type="text/javascript">
-	
-	$(function(){
+<?php
+	include 'head_common.php';
+?>
 
-		$("#formulario").submit(function(e){
-			e.preventDefault();
-			email = $("#email").val();
-			pass = $("#paw").val();
-			 $.post( "/yaire/login/ckuser",{email:email, pass:pass}, function( data ) {
-                    if(data==1)
-                    {
-                        window.location.href = "/yaire";
-                    }
-                    else
-                    {
-                        $("#m_error").css("display", "inline");
-                    }
-            });
-		});
-	});
-
-</script>
-
-<form action="" id="formulario" >
-	<div class="input-group">
-		<input type="email" id="email" placeholder="Email" required="required">
-		<input type="password" id="paw" placeholder="Password" required="required">
-		<input type="submit" id="submit" value="Submit">
-		<span id="m_error" style="display: none">¡¡¡El correo o la contraseña son incorectos!!!</span>
+<div class="container">
+	<div class="top_space">
 	</div>
+<form action="" id="formulario" >
+
+	<div class="input-group row">
+
+		<span id="m_error" style="display: none">¡correo o contraseña INCORRECTOS!</span>
+
+		<p class="form_title">LOGIN</p>
+
+		<span>
+			<label class="reg_label" for="email">Email</label>
+			<input class="reg_input" type="email" id="email" required="required" name="email">
+		</span>
+
+		<span>
+			<label class="reg_label" for="password">Password</label>
+			<input class="reg_input" type="password" id="paw"  required="required" name="password">
+		</span>
+		<span><a href="/error">¿Olvidaste tu contraseña?</a></span>
+		<span><a href="/register">Aún no estas registrado? Regístrate</a></span>
+		<input type="submit" class="hvr-grow" id="submit" value="OK">
+
+	</div>
+
 </form>
-		
+
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<?php
+	include 'footer_common.php';
+?>

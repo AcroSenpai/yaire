@@ -1,0 +1,126 @@
+<?php
+	include 'head_common.php';
+	?>
+<span class="breadcrums">Tienda > Carrito</span>
+<div class="container">
+
+<div class="top_space">
+</div>
+
+<h1>CARRITO</h1>
+
+	<div class="carrito_wrapper">
+		<?php
+		$total =0;
+		if(!empty($this->dataTable))
+		{
+			foreach ($this->dataTable as $concepto) {
+				?>
+
+			<div class="concepto">
+
+							<a href="/tienda/producto/id/<?=$concepto['id_productos']?>"><img style="width: 300px" src="/pub/images/<?=$concepto['img']?>"></a>
+
+							<div class="concepto_info">
+
+								<button class="borrar">X<span class="id_2" style="display: none;"><?=$concepto['id_conceptos']?></span></span></button>
+
+								<div class="info">
+
+									<span class="info_nombre"> <?=$concepto['nombre']?> </span>
+									<hr/>
+									<span class="info_precio"> Precio: <?=$concepto['precio']?> €</span>
+									<span class="info_cantidad"> Cantidad: <input type="number" class="precio" name="precio" min="1" value="<?=$concepto['cantidad']?>"></input>
+									<span class="producto" style="display: none;"><?=$concepto['id_productos']?></span>
+									</span>
+
+									<span class="id" style="display: none;"><?=$concepto['id_conceptos']?></span>
+								</div>
+
+							</div>
+
+				</div>
+
+				<?php
+				$total = $total + $concepto['precio'];
+			}
+
+		}
+		else
+		{
+			?>
+				<h1>No tienes productos en el carrito</h1>
+			<?php
+		}
+		?>
+		<div class="concepto_total">
+			<hr/>
+			<span id="total_cont">Total: <span id="total"> <?=$total?> </span>€</span>
+		</div>
+
+					<button class="hvr-grow-shadow" id="tramitar_pedido">COMPRAR</button>
+
+		<div class="carrito_pago">
+
+
+			<div id="pago_tarjeta">
+
+				<h3>PAGO CON TARJETA</h3>
+
+						<div class='card-wrapper' style="margin-top:-30px;"></div>
+
+			 			<!-- CSS is included via this JavaScript file -->
+			 			<script src="/pub/js/card.js"></script>
+
+			 			<div class="row tarjeta_wrapper">
+
+			 				<form class="tarjeta_form">
+
+			 					<span><input id="number" class="clean-slide" type="text" name="number" placeholder="numero"><label for="numero"></label></span>
+			 					<span><input id="name"  class="clean-slide" type="text" name="name" placeholder="nombre completo"/><label for="name"></label></span>
+
+								<div class="tarjeta_exp">
+									<span><input id="expiry"  class="clean-slide" type="text" name="expiry" placeholder="expira el"/><label for="expires"></label></span>
+				 					<span><input id="ccv"  class="clean-slide" type="text" name="cvc" placeholder="CVC"/><label for="cvc"></label></span>
+			 					</div>
+
+			 				</form>
+
+							<button id="comprar">PAGAR</button>
+
+			 			</div>
+
+			 			<script>
+
+			 			var card = new Card({
+
+			 				form: 'form',
+			 				container: '.card-wrapper',
+
+			 				width: 300, // optional — default 350px
+			 	 			formatting: true, // optional - default true
+
+			 				placeholders: {
+			 						number: '**** **** **** ****',
+			 						name: 'Arya Stark',
+			 						expiry: '**/****',
+			 						cvc: '***'
+			 				}
+			 			});
+
+			 			</script>
+
+			 </div>
+
+		</div>
+
+	</div>
+
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+<?php
+	include 'footer_common.php';
+?>
+

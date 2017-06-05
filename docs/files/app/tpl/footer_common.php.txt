@@ -1,0 +1,86 @@
+
+<footer>
+<div class="footer_links">
+    <a href="#">Preguntas frecuentes</a>
+    <a href="#">Sobre nosotros</a>
+  </div>
+
+<label id="footer_text">Proyecto final hecho con ♥ por Aitor Pérez y Olalla Iglesias</label>
+</footer>
+
+<div id="nav_bottom">
+
+	<ul class="nav_separator">
+
+    <li>
+    <a href="/teorico" class="hvr-grow">
+     teórica
+    <img src="<?= '/pub/images/icons/006-file.png'; ?>" alt="menú teórica"/>
+    </a>
+    </li>
+
+	</ul>
+
+  <ul class="nav_separator">
+
+    <a href="/practico" class="hvr-grow">
+    <li> prácticas </li>
+    <img src="<?= '/pub/images/icons/002-car.png'; ?>" alt="menú prácticas"/>
+    </a>
+
+  </ul>
+
+
+
+  <ul class="nav_separator">
+
+    <?php if( (! empty ($_SESSION['user'])) && ( ($_SESSION['rol']==3) ) ):?>
+
+      <a href="/tienda/carrito" class="hvr-grow">
+        <li>carrito
+        <?php if( isset($this->dataTable['tienda']) ): ?>
+          <span>(<span class="num_c"></span>)</span>
+        <?php endif; ?>
+
+      </li>
+      <img src="<?= '/pub/images/icons/003-shopping-cart.png'; ?>" alt="menú carrito"/>
+      </a>
+
+    <?php else: ?>
+
+      <a href="/" class="hvr-grow">
+
+      <img src="<?= '/pub/images/logo.png'; ?>" alt="menú carrito" style="width:50px"/>
+      </a>
+
+    <?php endif;?>
+
+  </ul>
+
+  <ul class="nav_separator">
+
+    <a href="/tienda" class="hvr-grow">
+    <li> tienda</li>
+    <img src="<?= '/pub/images/icons/001-shop.png'; ?>" alt="menú tienda"/>
+    </a>
+
+  </ul>
+
+  <ul class="nav_separator">
+
+    <a href="/users" class="hvr-grow">
+    <li> cuenta </li>
+    <img src="<?= '/pub/images/icons/005-social.png'; ?>" alt="menú tienda"/>
+    </a>
+
+  </ul>
+
+</div>
+
+
+<script type="text/javascript" src="<?= '/pub/js/script.js'; ?>"></script>
+<script type="text/javascript" src="<?='/pub/js/jquery.md5.js'?>"></script>
+
+</body>
+</html>
+

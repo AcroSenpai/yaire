@@ -1,42 +1,60 @@
-<h1><?= $this->page; ?></h1>
-<div style="display: flex;">
-	<div>
+<?php
+	include 'head_common.php';
+	?>
+<span class="breadcrums"><a href="/tienda">Tienda</a> > Producto</span>
+<div class="nav_back">
 
-	<img style="width: 600px" src="/yaire/pub/images/<?=$this->dataTable[0]['img']?>">
+	<button type="button" name="button" id="nav_back"> < </button>
+
+</div>
+
+<div class="container">
+
+	<div class="top_space">
 	</div>
-	<div>
-	<div>
-		Descripcion: <?=$this->dataTable[0]['descripcion']?>
+
+	<div class="product_container">
+
+		<img alt="producto <?=$this->dataTable['productos'][0]['nombre']?>" src="/pub/images/<?=$this->dataTable['productos'][0]['img']?>">
+
+		<div class="product_information">
+
+				<div class="product_information_top">
+
+					<h1><?=$this->dataTable['productos'][0]['nombre']?></h1>
+
+					<hr />
+
+					<span id="desc"><?=$this->dataTable['productos'][0]['descripcion']?></span>
+
+				</div>
+
+				<div class="product_information_bottom">
+
+					<span id="precio"><?=$this->dataTable['productos'][0]['precio']?>€
+					<?php if( (! empty ($_SESSION['user'])) && ( ($_SESSION['rol']==3) ) ):?>
+						<span id="cant" >cantidad:</span>
+						<input class="create_input_text" type="number" name="cantidad" value="1" min="1"></span>
+						<button class="comprar hvr-grow">Comprar</button>
+					<?php else:?>
+						</span>
+						<button class="comprar_userw hvr-grow">Comprar</button>
+					<?php endif;?>
+
+					<span class="id" style="display: none"><?=$this->dataTable['productos'][0]['id_productos']?></span>
+					<span class="precio" style="display: none"><?=$this->dataTable['productos'][0]['precio']?></span>
+
+				</div>
+
+			</div>
+
 	</div>
-	<div id="precio">
-		Precio: <?=$this->dataTable[0]['precio']?>
-	</div>
-	<div>
-		<input type="number" name="cantidad" value="1" min="1">
-		<button class="comprar">Comprar</button>
-		<span class="id" style="display: none"><?=$this->dataTable[0]['id_productos']?></span>
-		<span class="precio" style="display: none"><?=$this->dataTable[0]['precio']?></span>
-	</div>
+
 </div>
 
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-<script type="text/javascript">
-	$(function(){
 
-
-		$(".comprar").on('click',function(){
-
-			producto = $(this).siblings('.id').text();
-			cantidad = $(this).siblings('input').val();
-			precio = $(this).siblings('.precio').text();
-
-			$.post( "/yaire/tienda/generar_concepto",{producto:producto,cantidad:cantidad,precio:precio}, function( data ) {
-				alert(data);
-					//window.location.href = "/yaire/tienda";
-			});
-		
-		})
-
-	});
-</script>
+<?php
+	include 'footer_common.php';
+?>

@@ -8,9 +8,9 @@
 		public function __construct(){
 			$config=Registry::getInstance();
                         //determines the correct environment in DB
-                        $strdbconf='dbconf_'.env;
+                        $strdbconf='dbconf_dev';
 			$dbconf=(array)$config->$strdbconf;
-                      
+
 			$dsn=$dbconf['driver'].':host='.$dbconf['dbhost'].';dbname='.$dbconf['dbname'];
 		 	$usr=$dbconf['dbuser'];
 		 	$pwd=$dbconf['dbpass'];

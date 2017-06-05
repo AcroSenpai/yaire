@@ -1,4 +1,3 @@
-
 <?php
 
 	namespace X\App\Views;
