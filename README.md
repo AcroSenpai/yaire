@@ -1,11 +1,16 @@
-# X
-PHP framework. We use this framework to study design patterns. 
+# Yaire autoescuela
+Aplicacion Web para la Autoescuela YAIRE
 
 
-## Configuration
+## Descripcion
 
-We have  the file *app/config.json* to do the task.
-If we want to change our database configuration we can do it in two environments:
-..*production, we use the array key **dbconf_pro**
-..*development, we use the array key **dbconf_dev**
+Yaire es una aplicacion online para la autoescuela yaire (inventada para el proyecto final del grado de desarollador web), en esta aplicacion puedes registrarte para teorico, practico o los dos. 
+
+Puedes hacer tests creados por los profesores o por la DGT. 
+
+
+Puedes seleccionar cuadno quieres hacer practicas y con que profesor dentro de su horario. 
+
+Y para que esto funcione debes pagar un pack de practicas.
+
 
